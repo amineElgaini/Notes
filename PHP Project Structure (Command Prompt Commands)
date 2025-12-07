@@ -1,0 +1,11 @@
+mkdir -p my-app/{public/{pages/products,partials,assets/{css,js,images}},api,app/{config,controllers,models},src,docker/{nginx,php}} && \
+touch my-app/public/{index.php,pages/{about.html,contact.html,dashboard.php},pages/products/{index.php,show.php},partials/{header.php,footer.php},assets/css/output.css,assets/js/app.js} && \
+touch my-app/api/{users.php,products.php} && \
+touch my-app/app/config/{database.php,helpers.php} && \
+touch my-app/app/controllers/{UserController.php,ProductController.php} && \
+touch my-app/app/models/{User.php,Product.php} && \
+touch my-app/src/input.css && \
+touch my-app/docker/nginx/default.conf && \
+touch my-app/docker/php/{Dockerfile,php.ini} && \
+touch my-app/{docker-compose.yml,package.json,.env,README.md} && \
+echo "✓ Done!"
