@@ -73,6 +73,17 @@ class Etudiant
         }
         return "{$this->prenom} {$this->nom}";
     }
+
+    public function __call($name, $arguments)
+    {
+        echo "Method '$name' does not exist. Arguments: ";
+        print_r($arguments);
+    }
+
+    public static function add($a, $b)
+    {
+        echo $a + $b;
+    }
 }
 
 
@@ -120,6 +131,8 @@ class EtudiantSpecialise extends Etudiant
         echo "Spécialité : {$this->specialite}\n";
         echo "Niveau : {$this->niveau}\n\n";
     }
+
+
 
     // Redéfinition de sePresenter()
     public function sePresenter(bool $detaille = false): string
@@ -176,3 +189,8 @@ $etudiant1->setAge(21);
 echo "Après setAge(21) : " . $etudiant1->getAge() . " ans\n";
 $etudiant1->setAge(150);
 echo "Âge final : " . $etudiant1->getAge() . " ans\n";
+$etudiant1->test(150);
+Etudiant::add(150, 50);
+
+
+// PHP doesn't support operator overloading  we can use __toString();
