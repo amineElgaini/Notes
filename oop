@@ -1,0 +1,178 @@
+<?php
+
+// =================================================================
+// CLASSE ÉTUDIANT
+// =================================================================
+
+class Etudiant
+{
+    // Propriétés privées (encapsulation)
+    private string $nom;
+    private string $prenom;
+    private int $age;
+    private string $filiere;
+
+    // Constructeur
+    public function __construct(string $nom, string $prenom, int $age, string $filiere)
+    {
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+        $this->age = $age;
+        $this->filiere = $filiere;
+    }
+
+    // Getters
+    public function getNom(): string
+    {
+        return $this->nom;
+    }
+
+    public function getPrenom(): string
+    {
+        return $this->prenom;
+    }
+
+    public function getAge(): int
+    {
+        return $this->age;
+    }
+
+    public function getFiliere(): string
+    {
+        return $this->filiere;
+    }
+
+    // Setters avec validation
+    public function setAge(int $age): void
+    {
+        if ($age > 0 && $age < 120) {
+            $this->age = $age;
+        } else {
+            echo "Âge invalide!\n";
+        }
+    }
+
+    public function setFiliere(string $filiere): void
+    {
+        $this->filiere = $filiere;
+    }
+
+    // Afficher les informations
+    public function afficherInfos(): void
+    {
+        echo "Nom : {$this->prenom} {$this->nom}\n";
+        echo "Âge : {$this->age} ans\n";
+        echo "Filière : {$this->filiere}\n\n";
+    }
+
+    // Méthode avec paramètres optionnels (simulation surcharge)
+    public function sePresenter(bool $detaille = false): string
+    {
+        if ($detaille) {
+            return "{$this->prenom} {$this->nom}, {$this->age} ans, {$this->filiere}";
+        }
+        return "{$this->prenom} {$this->nom}";
+    }
+}
+
+
+// =================================================================
+// CLASSE ÉTUDIANT SPÉCIALISÉ (hérite de Etudiant)
+// =================================================================
+
+class EtudiantSpecialise extends Etudiant
+{
+    private string $specialite;
+    private string $niveau;
+
+    // Constructeur
+    public function __construct(
+        string $nom,
+        string $prenom,
+        int $age,
+        string $filiere,
+        string $specialite,
+        string $niveau
+    ) {
+        // Appel du constructeur parent
+        parent::__construct($nom, $prenom, $age, $filiere);
+        $this->specialite = $specialite;
+        $this->niveau = $niveau;
+    }
+
+    // Getters
+    public function getSpecialite(): string
+    {
+        return $this->specialite;
+    }
+
+    public function getNiveau(): string
+    {
+        return $this->niveau;
+    }
+
+    // Redéfinition de la méthode afficherInfos()
+    public function afficherInfos(): void
+    {
+        echo "Nom : {$this->getPrenom()} {$this->getNom()}\n";
+        echo "Âge : {$this->getAge()} ans\n";
+        echo "Filière : {$this->getFiliere()}\n";
+        echo "Spécialité : {$this->specialite}\n";
+        echo "Niveau : {$this->niveau}\n\n";
+    }
+
+    // Redéfinition de sePresenter()
+    public function sePresenter(bool $detaille = false): string
+    {
+        if ($detaille) {
+            return "{$this->getPrenom()} {$this->getNom()}, {$this->niveau} en {$this->getFiliere()}, spécialité {$this->specialite}";
+        }
+        return "{$this->getPrenom()} {$this->getNom()} ({$this->niveau})";
+    }
+}
+
+
+// =================================================================
+// DÉMONSTRATION
+// =================================================================
+
+echo "=== GESTION D'ÉTUDIANTS ===\n\n";
+
+// Création d'étudiants standards
+echo "--- Étudiants standards ---\n";
+$etudiant1 = new Etudiant("Alami", "Fatima", 20, "Informatique");
+$etudiant2 = new Etudiant("Benjelloun", "Youssef", 22, "Génie Civil");
+
+$etudiant1->afficherInfos();
+$etudiant2->afficherInfos();
+
+// Création d'étudiants spécialisés
+echo "--- Étudiants spécialisés ---\n";
+$etudiantSpec1 = new EtudiantSpecialise("El Amrani", "Amina", 23, "Informatique", "Intelligence Artificielle", "Master");
+$etudiantSpec2 = new EtudiantSpecialise("Tazi", "Mehdi", 25, "Informatique", "Cybersécurité", "Doctorat");
+
+$etudiantSpec1->afficherInfos();
+$etudiantSpec2->afficherInfos();
+
+// Méthode avec paramètres optionnels
+echo "--- Présentations ---\n";
+echo $etudiant1->sePresenter() . "\n";
+echo $etudiant1->sePresenter(true) . "\n";
+echo $etudiantSpec1->sePresenter() . "\n";
+echo $etudiantSpec1->sePresenter(true) . "\n\n";
+
+// Liste d'étudiants
+echo "--- Liste des étudiants ---\n";
+$listeEtudiants = [$etudiant1, $etudiant2, $etudiantSpec1, $etudiantSpec2];
+
+foreach ($listeEtudiants as $index => $etudiant) {
+    echo ($index + 1) . ". " . $etudiant->sePresenter(true) . "\n";
+}
+
+// Démonstration encapsulation
+echo "\n--- Encapsulation ---\n";
+echo "Âge actuel : " . $etudiant1->getAge() . " ans\n";
+$etudiant1->setAge(21);
+echo "Après setAge(21) : " . $etudiant1->getAge() . " ans\n";
+$etudiant1->setAge(150);
+echo "Âge final : " . $etudiant1->getAge() . " ans\n";
